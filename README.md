@@ -1,4 +1,4 @@
-# 🍫 CACAOTERO — Tecnología para el Cacao
+# 🍫 CACAOTERO — Tecnología para el Cacao-un producto de Savia Agro Technology 
 
 Plataforma digital integral diseñada para la trazabilidad y gestión inteligente de la cadena de valor del cacao, conectando el origen en las fincas de **Santander, Colombia** hasta el producto final.
 
