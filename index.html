@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cacaotero · Trazabilidad desde la finca hasta el chocolate</title>
+  <meta name="description" content="CACAOTERO integra información, productores y procesos en una plataforma digital que garantiza transparencia, calidad y confianza en toda la cadena de valor del cacao.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ===== Encabezado ===== -->
+  <header class="header" id="inicio">
+    <div class="container header__inner">
+      <a href="#inicio" class="header__logo" aria-label="Cacaotero, ir al inicio">
+        <img src="img/logo.png" alt="Cacaotero" width="330" height="236">
+      </a>
+
+      <button class="header__toggle" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav" id="menu" aria-label="Principal">
+        <ul class="nav__list">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#trazabilidad">Trazabilidad</a></li>
+          <li><a href="#funcionalidades">Funcionalidades</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+        <a href="#" class="btn-login">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+          <span class="btn-login__sep" aria-hidden="true"></span>
+          Ingresar
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__text">
+          <p class="hero__kicker">Tecnología para el cacao</p>
+          <h1 class="hero__title">Trazabilidad desde la finca hasta el chocolate</h1>
+          <p class="hero__lead">CACAOTERO integra información, productores y procesos en una plataforma digital que garantiza transparencia, calidad y confianza en toda la cadena de valor.</p>
+          <div class="hero__actions">
+            <a href="#funcionalidades" class="btn btn--green">Conocer plataforma <span aria-hidden="true">→</span></a>
+            <a href="#contacto" class="link-red">Solicitar Demostración <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="hero__media">
+          <img src="img/hero.png" alt="Plataforma Cacaotero en celular y computador junto a empaques de cacao" width="1381" height="837">
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Del cacao al chocolate ===== -->
+    <section class="process" id="trazabilidad">
+      <div class="container process__grid">
+        <div class="process__intro">
+          <h2 class="process__title">Del cacao al chocolate</h2>
+          <p class="process__subtitle">Cada paso cuenta.<br>Cada origen importa.</p>
+          <p class="process__text">CACAOTERO permite registrar y conectar cada etapa del proceso del cacao para asegurar productos de calidad y relaciones justas.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step">
+            <span class="step__icon">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 32c4-1 8-1 12 1l7 2c1.5.5 1.5 3-.5 3H17"/><path d="M6 40l5-1 9 3c2 .5 4 .3 6-.6L42 33c1.5-.8 1-3-.7-3l-9 2"/><path d="M24 28V15"/><path d="M24 20c-5 0-8-3-8-8 5 0 8 3 8 8z"/><path d="M24 17c0-5 3-8 8-8 0 5-3 8-8 8z"/></svg>
+            </span>
+            <span class="step__num">1</span>
+            <p>El productor registra la información de su cosecha.</p>
+          </li>
+          <li class="step">
+            <span class="step__icon">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="12" y="9" width="24" height="32" rx="2"/><rect x="19" y="6" width="10" height="6" rx="1.5"/><path d="M17 19h2M23 19h8M17 26h2M23 26h8M17 33h2M23 33h8"/></svg>
+            </span>
+            <span class="step__num">2</span>
+            <p>Se almacena y se organiza la información de manera segura.</p>
+          </li>
+          <li class="step">
+            <span class="step__icon">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="21" cy="21" r="11"/><path d="M29 29l11 11"/><path d="M15 19a7 7 0 0 1 5-5"/></svg>
+            </span>
+            <span class="step__num">3</span>
+            <p>Se puede rastrear cada lote desde su origen hasta el destino.</p>
+          </li>
+          <li class="step">
+            <span class="step__icon">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5c-8 5-11 13-11 20s3 14 11 18c8-4 11-11 11-18S32 10 24 5z"/><path d="M24 5v38M18.5 9.5c-2 5-2.5 11-1.5 19s2.5 10.5 3.5 12M29.5 9.5c2 5 2.5 11 1.5 19s-2.5 10.5-3.5 12"/><path d="M24 5l-2-3"/></svg>
+            </span>
+            <span class="step__num">4</span>
+            <p>Chocolate de calidad con origen transparente y sostenible.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== Plataforma integral ===== -->
+    <section class="platform" id="funcionalidades">
+      <div class="container">
+        <p class="platform__eyebrow">Plataforma integral</p>
+        <h2 class="platform__title">Todo lo que necesitas en un solo lugar</h2>
+
+        <div class="cards">
+          <article class="card">
+            <svg class="card__icon" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="15" r="7"/><circle cx="14" cy="22" r="5"/><circle cx="50" cy="22" r="5"/><path d="M20 50V38c0-7 5-12 12-12s12 5 12 12v12z"/><path d="M20 36H8v-4c0-4 3-6 6-6 2 0 4 .7 5 2M44 36h12v-4c0-4-3-6-6-6-2 0-4 .7-5 2"/><path d="M8 36v10h12M56 36v10H44M27 50v-9M37 50v-9"/></svg>
+            <h3 class="card__title">Gestión de productores</h3>
+            <p class="card__text">Registra y administra la información de productores, fincas y cosechas.</p>
+            <a href="#" class="card__link">Ver más <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="card">
+            <svg class="card__icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4l22 8v17c0 15-9.5 25-22 31C19.5 54 10 44 10 29V12z"/><path d="M32 10l16 6v13c0 11-6.5 19-16 24-9.5-5-16-13-16-24V16z"/><path d="M22 31l7 7 14-15"/></svg>
+            <h3 class="card__title">Trazabilidad completa</h3>
+            <p class="card__text">Rastrea cada lote de cacao desde la finca hasta el cliente final.</p>
+            <a href="#" class="card__link">Ver más <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="card">
+            <svg class="card__icon" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="38" width="9" height="18"/><rect x="19" y="28" width="9" height="28"/><rect x="32" y="18" width="9" height="38"/><rect x="45" y="6" width="9" height="50"/></svg>
+            <h3 class="card__title">Reportes y analítica</h3>
+            <p class="card__text">Obtén información clave para tomar mejores decisiones en tu negocio.</p>
+            <a href="#" class="card__link">Ver más <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="card">
+            <svg class="card__icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 50C10 38 16 18 52 6c4 28-8 44-28 46"/><path d="M12 60l30-38"/><path d="M28 40l-1-10M33 34l7 1"/></svg>
+            <h3 class="card__title">Sostenibilidad</h3>
+            <p class="card__text">Promueve prácticas sostenibles y relaciones comerciales justas.</p>
+            <a href="#" class="card__link">Ver más <span aria-hidden="true">→</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Banner ===== -->
+    <section class="banner" aria-label="Nuestra misión">
+      <div class="container banner__inner">
+        <p class="banner__text">Tecnología para una cadena de cacao más transparente y sostenible.</p>
+      </div>
+    </section>
+
+    <!-- ===== Impacto ===== -->
+    <section class="impact" aria-labelledby="impact-title">
+      <div class="container">
+        <h2 class="impact__title" id="impact-title">Impacto generado</h2>
+        <div class="stats">
+          <figure class="stat stat--brown">
+            <img src="img/impact1.png" alt="" width="497" height="507">
+            <div class="stat__body">
+              <strong class="stat__num"><span data-count="3.86" data-decimals="2">3.86</span> millones t</strong>
+              <figcaption>Cacao en grano exportado mundialmente en 2025</figcaption>
+            </div>
+          </figure>
+          <figure class="stat stat--pink">
+            <img src="img/impact2.png" alt="" width="456" height="483">
+            <div class="stat__body">
+              <strong class="stat__num"><span data-count="16457" data-thousands>16.457</span> t</strong>
+              <figcaption>Cacao en grano exportado por Colombia</figcaption>
+            </div>
+          </figure>
+          <figure class="stat stat--green">
+            <img src="img/impact3.png" alt="" width="452" height="483">
+            <div class="stat__body">
+              <strong class="stat__num"><span data-count="0.5" data-decimals="1" data-comma>0,5</span> %</strong>
+              <figcaption>Participación de Colombia en las exportaciones mundiales</figcaption>
+            </div>
+          </figure>
+          <figure class="stat stat--gold">
+            <img src="img/impact4.png" alt="" width="490" height="476">
+            <div class="stat__body">
+              <strong class="stat__num">US$<span data-count="138">138</span> millones</strong>
+              <figcaption>Valor de las exportaciones colombianas de cacao en grano</figcaption>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta" id="contacto">
+      <div class="container cta__inner">
+        <span class="cta__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="22"/><circle cx="24" cy="21" r="7"/><path d="M13 38c2-6 6-9 11-9s9 3 11 9"/><path d="M14 22c0-6 4.5-10 10-10s10 4 10 10"/><rect x="11" y="20" width="4" height="7" rx="2"/><rect x="33" y="20" width="4" height="7" rx="2"/></svg>
+        </span>
+        <div class="cta__text">
+          <h2>¿Listo para transformar tu cadena de valor?</h2>
+          <p>Hablemos de cómo CACAOTERO puede ayudar a tu organización.</p>
+        </div>
+        <a href="mailto:contacto@cacaotero.com?subject=Solicitud%20de%20demostraci%C3%B3n" class="btn btn--maroon">Solicitar Demostración <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Pie de página ===== -->
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <img src="img/footerlogo.png" alt="Cacaotero" width="578" height="415">
+        <p>Plataforma digital para la trazabilidad y gestión de la cadena de cacao.</p>
+        <ul class="social">
+          <li><a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.5V11H7v4h2.5v8h4v-8H17l.5-4h-4V9c0-.6.4-1 1-1z" class="fill"/></svg></a></li>
+          <li><a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" class="fill"/></svg></a></li>
+          <li><a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M4 20l1.2-4A8.5 8.5 0 1 1 8.3 19z"/><path d="M9 8.5c.2 3 3.4 6.3 6.5 6.5l1-1.4-1.8-1-1 .8c-1-.5-2-1.5-2.5-2.5l.8-1-1-1.8z" class="fill"/></svg></a></li>
+        </ul>
+      </div>
+      <nav class="footer__nav" aria-label="Navegación del pie">
+        <h2>Navegación</h2>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#">Nosotros</a></li>
+          <li><a href="#trazabilidad">Trazabilidad</a></li>
+          <li><a href="#funcionalidades">Funcionalidades</a></li>
+        </ul>
+      </nav>
+    </div>
+    <p class="footer__copy">© <span id="year">2024</span> CACAOTERO. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
