@@ -1,0 +1,1006 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cacaotero | Trazabilidad del cacao</title>
+  <meta name="description" content="CACAOTERO integra información, productores y procesos en una plataforma digital que garantiza transparencia, calidad y confianza en toda la cadena de valor del cacao.">
+  <link rel="icon" href="assets/img/logo.png">
+  <script>document.documentElement.classList.add('js');</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600&family=Inter:wght@500;600&family=Montserrat+Alternates:wght@500;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-cafe: #614A34;
+      --color-verde: #456C33;
+      --color-verde-btn: #256C2B;
+      --color-verde-link: #1F5E2A;
+      --color-verde-claro: #7FA86A;
+      --color-dorado: #C3973F;
+      --color-naranja: #D1972C;
+      --color-vino: #7C1D27;
+      --color-rosa: #E1C9CC;
+      --color-beige: #F6EDD9;
+      --color-crema: #FBF8F2;
+      --color-borde: #D9D9D9;
+      --color-banner: #1B361D;
+
+      --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+      --font-alt: "Montserrat Alternates", "Montserrat", sans-serif;
+      --font-serif: "Playfair Display", Georgia, serif;
+      --font-fig: "Figtree", "Montserrat", sans-serif;
+      --font-ui: "Inter", system-ui, sans-serif;
+    }
+
+    @layer base {
+      html { scroll-behavior: smooth; }
+      body { @apply bg-white font-sans text-black antialiased; }
+      a, button { @apply cursor-pointer; }
+      :focus-visible { outline: 3px solid var(--color-dorado); outline-offset: 3px; }
+    }
+
+    /* Aparición al hacer scroll (solo con JS activo) */
+    .js [data-reveal] { opacity: 0.25; transform: translateY(24px); transition: opacity 600ms cubic-bezier(.16,1,.3,1), transform 600ms cubic-bezier(.16,1,.3,1); transition-delay: var(--d, 0ms); }
+    .js [data-reveal].is-visible { opacity: 1; transform: none; }
+
+    /* Navegación activa */
+    .nav-link { position: relative; }
+    .nav-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--color-verde); transform: scaleX(0); transition: transform 250ms ease; }
+    .nav-link:hover::after, .nav-link[aria-current="true"]::after { transform: scaleX(1); }
+    .nav-link[aria-current="true"] { color: var(--color-verde); }
+
+    /* Detalle desplegable de tarjetas */
+    .card-more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 300ms ease; }
+    .card-more > div { overflow: hidden; }
+    .card.is-open .card-more { grid-template-rows: 1fr; }
+    .card.is-open .card-arrow { transform: rotate(90deg); }
+
+    /* Impacto */
+    .impact img { transition: transform 400ms cubic-bezier(.16,1,.3,1); }
+    .impact li:hover img { transform: scale(1.06) rotate(-2deg); }
+    .js .impact-bar { transform: scaleX(0); transition: transform 900ms cubic-bezier(.16,1,.3,1) 300ms; }
+    .js .is-visible .impact-bar { transform: scaleX(1); }
+
+    /* Modales */
+    dialog::backdrop { background: rgb(27 54 29 / 0.55); backdrop-filter: blur(2px); }
+    dialog[open] { animation: dlg-in 220ms cubic-bezier(.16,1,.3,1); }
+    @keyframes dlg-in { from { opacity: 0; transform: translateY(16px) scale(.98); } to { opacity: 1; transform: none; } }
+
+    /* ---------- Disparadores de las ilustraciones de impacto ---------- */
+    .stat-trigger { position: relative; display: inline-flex; border-radius: 18px; cursor: pointer; }
+    .stat-badge { position: absolute; right: 2px; bottom: 6px; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 999px; background: var(--color-verde); color: #fff; box-shadow: 0 4px 10px rgb(69 108 51 / .35); opacity: 0; transform: scale(.6); transition: opacity 200ms ease, transform 250ms cubic-bezier(.34,1.56,.64,1); }
+    .stat-trigger:hover .stat-badge, .stat-trigger:focus-visible .stat-badge { opacity: 1; transform: scale(1); }
+    @media (hover: none) { .stat-badge { opacity: 1; transform: scale(.85); } }
+    @media (min-width: 768px) and (max-width: 1023px) { .stat-badge { width: 22px; height: 22px; right: -4px; bottom: 0; } }
+
+    /* ---------- Modal de estadísticas (verde claro) ---------- */
+    .stat-dlg { --st-bg: #EAF4E2; --st-ink: #22341A; --st-muted: #4E6343; --st-track: #D3E6C6; --st-line: #BFD8AF;
+      width: min(94vw, 660px); max-height: 90vh; margin: auto; padding: 0; border: 0; border-radius: 24px; overflow: auto; overscroll-behavior: contain;
+      color: var(--st-ink); background: radial-gradient(circle at 100% 0%, rgb(127 168 106 / .35), transparent 42%), radial-gradient(circle at 0% 100%, rgb(195 151 63 / .14), transparent 40%), var(--st-bg);
+      box-shadow: 0 30px 70px rgb(27 54 29 / .35); }
+    .stat-dlg[open] { animation: none; }
+    .stat-dlg::backdrop { animation: st-fade 300ms ease both; }
+    @keyframes st-fade { from { opacity: 0; } }
+    .stat-inner { position: relative; padding: 28px 22px 24px; }
+    @media (min-width: 640px) { .stat-inner { padding: 34px 36px 28px; } }
+    .stat-close { position: absolute; top: 12px; right: 12px; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; color: var(--st-ink); transition: background-color 200ms ease, transform 300ms ease; }
+    .stat-close:hover { background: rgb(255 255 255 / .7); transform: rotate(90deg); }
+    .stat-inner:focus { outline: none; }
+    .stat-head { display: grid; grid-template-columns: 1fr; gap: 10px; align-items: center; }
+    .stat-head .stat-img { width: 96px; }
+    @media (min-width: 640px) { .stat-head .stat-img { width: 100%; } .stat-head { padding-right: 36px; } }
+    @media (min-width: 640px) { .stat-head { grid-template-columns: 120px 1fr; gap: 22px; } }
+    .stat-img { width: 100%; height: auto; mix-blend-mode: multiply; animation: st-float 4.5s ease-in-out infinite alternate; }
+    @keyframes st-float { from { transform: translateY(0) rotate(0deg); } to { transform: translateY(-7px) rotate(-3deg); } }
+    .stat-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--color-verde); }
+    .stat-title { margin-top: 4px; font-size: 20px; font-weight: 700; line-height: 1.2; text-wrap: balance; }
+    @media (min-width: 640px) { .stat-title { font-size: 24px; } }
+    .stat-sub { margin-top: 6px; font-size: 14px; line-height: 1.45; color: var(--st-muted); }
+    .stat-kpi { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-top: 20px; padding: 14px 18px; border-radius: 14px; background: rgb(255 255 255 / .65); }
+    .stat-kpi-value { font-size: 30px; font-weight: 700; color: var(--color-cafe); font-variant-numeric: tabular-nums; }
+    .stat-kpi-label { font-size: 14px; color: var(--st-muted); }
+    .stat-list { margin-top: 18px; display: grid; gap: 4px; }
+    .stat-row { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "name val" "bar bar"; gap: 6px 12px; align-items: center; padding: 8px 10px; border-radius: 10px; transition: background-color 200ms ease; }
+    @media (min-width: 640px) { .stat-row { grid-template-columns: 150px 1fr 128px; grid-template-areas: "name bar val"; } }
+    .stat-row:hover { background: rgb(255 255 255 / .6); }
+    .stat-name { grid-area: name; font-size: 14px; font-weight: 600; }
+    .stat-val { grid-area: val; text-align: right; font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .stat-val small { display: block; font-size: 12px; font-weight: 500; color: var(--st-muted); }
+    .stat-track { grid-area: bar; height: 14px; border-radius: 4px; background: var(--st-track); overflow: hidden; }
+    .stat-bar { height: 100%; min-width: 4px; border-radius: 0 4px 4px 0; background: var(--color-verde); transform-origin: left center; }
+    .stat-row.is-hl .stat-bar { background: var(--color-dorado); }
+    .stat-row.is-hl .stat-name { color: var(--color-cafe); }
+    .stat-row.is-hl { background: rgb(255 255 255 / .55); outline: 2px solid rgb(195 151 63 / .45); }
+    .stat-cols { margin-top: 22px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; align-items: end; height: 220px; padding-bottom: 6px; border-bottom: 2px solid var(--st-line); }
+    .stat-col { display: flex; height: 100%; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; border-radius: 10px; transition: background-color 200ms ease; }
+    .stat-col:hover { background: rgb(255 255 255 / .5); }
+    .stat-col-val { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .stat-col-bar { width: 100%; max-width: 58px; border-radius: 4px 4px 0 0; background: var(--color-verde); transform-origin: bottom center; }
+    .stat-col.is-hl .stat-col-bar { background: var(--color-dorado); }
+    .stat-col-years { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 8px; text-align: center; font-size: 13px; font-weight: 600; color: var(--st-muted); }
+    .stat-fact { display: flex; gap: 10px; align-items: flex-start; margin-top: 20px; padding: 12px 14px; border-radius: 12px; background: var(--color-verde); color: #fff; font-size: 14px; line-height: 1.45; }
+    .stat-note { margin-top: 12px; font-size: 12px; line-height: 1.4; color: var(--st-muted); }
+    .stat-ok { margin-top: 16px; display: inline-flex; height: 46px; align-items: center; padding: 0 22px; border-radius: 10px; background: var(--color-verde-btn); color: #fff; font-weight: 600; font-size: 15px; transition: background-color 200ms ease, transform 200ms ease; }
+    .stat-ok:hover { background: #1c5621; transform: translateY(-1px); }
+
+    /* Entrada escalonada del contenido del modal */
+    .stat-dlg .st-anim { opacity: 0; transform: translateY(10px); }
+    .stat-dlg.is-in .st-anim { animation: st-in 450ms cubic-bezier(.16,1,.3,1) forwards; animation-delay: calc(var(--i, 0) * 70ms + 160ms); }
+    @keyframes st-in { to { opacity: 1; transform: none; } }
+    .stat-dlg .stat-bar { transform: scaleX(0); }
+    .stat-dlg.is-in .stat-bar { animation: st-grow-x 850ms cubic-bezier(.16,1,.3,1) forwards; animation-delay: calc(var(--i, 0) * 70ms + 300ms); }
+    @keyframes st-grow-x { to { transform: scaleX(1); } }
+    .stat-dlg .stat-col-bar { transform: scaleY(0); }
+    .stat-dlg.is-in .stat-col-bar { animation: st-grow-y 850ms cubic-bezier(.16,1,.3,1) forwards; animation-delay: calc(var(--i, 0) * 90ms + 300ms); }
+    @keyframes st-grow-y { to { transform: scaleY(1); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .stat-img { animation: none; }
+      .stat-dlg .st-anim, .stat-dlg .stat-bar, .stat-dlg .stat-col-bar { opacity: 1; transform: none; animation: none !important; }
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+      .js [data-reveal] { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header id="site-header" class="relative z-30 bg-white transition-shadow duration-300 md:sticky md:top-0">
+    <div class="mx-auto flex max-w-[1440px] flex-col items-center px-6 pt-8 md:flex-row md:items-center md:justify-between md:px-[30px] md:pt-[14px] lg:px-[72px] lg:pt-[28px]">
+      <a href="#inicio" aria-label="Cacaotero, ir al inicio" class="shrink-0">
+        <img src="assets/img/logo.png" alt="Cacaotero" width="206" height="144"
+             class="h-[136px] w-auto md:h-[64px] lg:h-[122px]">
+      </a>
+
+      <!-- Navegación tablet / escritorio -->
+      <nav aria-label="Principal" class="hidden items-center md:flex md:gap-6 lg:gap-6">
+        <ul class="flex items-center md:gap-6 lg:gap-[25px]">
+          <li><a href="#inicio" class="nav-link text-[12.5px] font-medium text-black transition-colors duration-200 hover:text-verde lg:text-[15px]">Inicio</a></li>
+          <li><a href="#trazabilidad" class="nav-link text-[12.5px] font-medium text-black transition-colors duration-200 hover:text-verde lg:text-[15px]">Trazabilidad</a></li>
+          <li><a href="#funcionalidades" class="nav-link text-[12.5px] font-medium text-black transition-colors duration-200 hover:text-verde lg:text-[15px]">Funcionalidades</a></li>
+          <li><a href="#contacto" class="nav-link text-[12.5px] font-medium text-black transition-colors duration-200 hover:text-verde lg:text-[15px]">Contacto</a></li>
+        </ul>
+        <button type="button" data-open="dlg-login" class="ml-2 inline-flex h-[40px] items-center gap-3 rounded-lg bg-cafe px-4 font-ui text-[13px] font-semibold text-white shadow-[0_3px_6px_rgba(0,0,0,0.25)] transition-colors duration-200 hover:bg-[#4f3b29] lg:ml-4 lg:h-[38px] lg:px-4 lg:text-[11px]">
+          <svg aria-hidden="true" class="size-[18px] lg:size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span class="h-4 w-px bg-white/70" aria-hidden="true"></span>
+          Ingresar
+        </button>
+      </nav>
+
+      <!-- Botón menú móvil -->
+      <button id="menu-btn" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-movil"
+              class="mt-3 flex size-14 flex-col items-center justify-center gap-[9px] md:hidden">
+        <span class="block h-[2.5px] w-[50px] rounded bg-cafe transition-transform duration-200"></span>
+        <span class="block h-[2.5px] w-[50px] rounded bg-cafe transition-opacity duration-200"></span>
+        <span class="block h-[2.5px] w-[50px] rounded bg-cafe transition-transform duration-200"></span>
+      </button>
+    </div>
+
+    <!-- Menú móvil -->
+    <nav id="menu-movil" aria-label="Principal móvil" hidden class="border-t border-borde bg-white px-6 pb-6 md:hidden">
+      <ul class="flex flex-col divide-y divide-borde text-center">
+        <li><a href="#inicio" class="block py-3 text-base font-medium text-black">Inicio</a></li>
+        <li><a href="#trazabilidad" class="block py-3 text-base font-medium text-black">Trazabilidad</a></li>
+        <li><a href="#funcionalidades" class="block py-3 text-base font-medium text-black">Funcionalidades</a></li>
+        <li><a href="#contacto" class="block py-3 text-base font-medium text-black">Contacto</a></li>
+      </ul>
+      <button type="button" data-open="dlg-login" class="mt-3 flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-cafe font-ui text-sm font-semibold text-white">
+        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        Ingresar
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================= HERO (tablet / escritorio) ================= -->
+    <section id="inicio" class="hidden md:block">
+      <div class="mx-auto grid max-w-[1440px] items-center md:grid-cols-[1fr_47%] md:gap-4 md:px-5 md:pt-4 md:pb-[22px] lg:grid-cols-[1fr_688px] lg:gap-8 lg:pt-[18px] lg:pr-[42px] lg:pb-[40px] lg:pl-[78px]">
+        <div data-reveal>
+          <p class="font-serif text-[15px] font-bold italic text-verde md:pl-4 lg:pl-[22px] lg:text-[21px]">TECNOLOGIA PARA EL CACAO</p>
+          <h1 class="mt-5 text-[15px] font-semibold uppercase leading-[32px] text-cafe lg:mt-[22px] lg:text-[33px] lg:leading-[48px]">
+            Trazabilidad desde la finca<br>hasta el chocolate
+          </h1>
+          <p class="mt-4 max-w-[360px] text-[13px] leading-[22px] text-cafe md:pl-[3px] lg:mt-[22px] lg:max-w-[450px] lg:pl-0 lg:text-[15px] lg:leading-[39px]">
+            CACAOTERO integra información, productores y procesos en una plataforma digital que garantiza transparencia, calidad y confianza en toda la cadena de valor.
+          </p>
+          <div class="mt-3 flex items-center gap-10 md:pl-[26px] lg:mt-[26px] lg:gap-14 lg:pl-[29px]">
+            <a href="#funcionalidades" class="group inline-flex h-[28px] items-center gap-1.5 rounded-[5px] bg-verde-btn px-4 font-ui text-[10px] font-medium text-white shadow-sm transition-colors duration-200 hover:bg-[#1c5621] lg:h-[39px] lg:px-[21px] lg:text-[12px]">
+              Conocer plataforma
+              <svg aria-hidden="true" class="size-3 transition-transform duration-200 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <button type="button" data-open="dlg-demo" class="group inline-flex items-center gap-1.5 font-ui text-[12px] font-medium text-vino transition-opacity duration-200 hover:opacity-75 lg:text-[11px]">
+              Solicitar Demostración
+              <svg aria-hidden="true" class="size-3 transition-transform duration-200 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </div>
+        <img data-reveal style="--d:150ms" src="assets/img/hero.png" alt="Plataforma Cacaotero en celular y computador, empaque de cacao y tarjetas de la marca" width="688" height="410" class="w-full transition-transform duration-500 hover:scale-[1.02]">
+      </div>
+    </section>
+
+    <!-- ================= DEL CACAO AL CHOCOLATE (tablet / escritorio) ================= -->
+    <section id="trazabilidad" class="hidden bg-beige md:block">
+      <div class="mx-auto grid max-w-[1440px] md:px-[50px] md:pt-[42px] md:pb-[34px] xl:grid-cols-[1fr_700px] xl:gap-6 xl:pt-[38px] xl:pr-[60px] xl:pb-[44px] xl:pl-[60px]">
+        <div data-reveal>
+          <h2 class="font-serif text-[36px] font-bold italic leading-tight text-dorado md:pl-3 xl:pl-0 xl:font-sans xl:text-[38px] xl:tracking-[0.2px]">DEL CACAO AL CHOCOLATE</h2>
+          <span class="mt-2 block h-[5px] w-[160px] bg-dorado md:ml-2 xl:ml-0 xl:mt-[14px]" aria-hidden="true"></span>
+          <p class="mt-4 text-[30px] font-semibold leading-[46px] xl:mt-[30px] xl:pl-[33px] xl:text-[28px] xl:leading-[48px]">
+            <span class="block text-dorado xl:text-cafe">Cada paso cuenta.</span>
+            <span class="block text-verde">Cada origen importa.</span>
+          </p>
+          <p class="mt-5 text-[14.5px] leading-[17px] text-black xl:mt-[18px] xl:max-w-[430px] xl:pl-[30px] xl:text-[14px] xl:leading-[33px]">
+            CACAOTERO permite registrar y conectar cada etapa del proceso del cacao para asegurar productos de calidad y relaciones justas.
+          </p>
+        </div>
+
+        <ol data-stagger class="mt-6 grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start text-center xl:mt-[78px]">
+          <li class="group flex flex-col items-center">
+            <img src="assets/img/paso-1.png" alt="" width="102" height="102" class="size-[96px] rounded-full transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105 xl:size-[100px]">
+            <span class="mt-4 flex size-[34px] items-center justify-center rounded-full bg-verde text-[14px] text-white transition-colors duration-300 group-hover:bg-dorado xl:mt-3">1</span>
+            <p class="mt-2 max-w-[150px] text-[13px] leading-[19px] text-verde xl:max-w-[140px] xl:text-[11.5px] xl:leading-[16px]">El productor registra la información de su cosecha.</p>
+          </li>
+          <li aria-hidden="true" class="pt-[38px] xl:pt-[190px]">
+            <svg class="h-4 w-9 text-naranja" viewBox="0 0 36 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h31M26 2l7 6-7 6"/></svg>
+          </li>
+          <li class="group flex flex-col items-center">
+            <img src="assets/img/paso-2.png" alt="" width="98" height="98" class="size-[96px] rounded-full transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105 xl:size-[94px]">
+            <span class="mt-4 flex size-[34px] items-center justify-center rounded-full bg-verde text-[14px] text-white transition-colors duration-300 group-hover:bg-dorado xl:mt-3">2</span>
+            <p class="mt-2 max-w-[160px] text-[13px] leading-[15px] text-verde xl:max-w-[150px] xl:text-[11.5px] xl:leading-[12px]">Se almacena y se organiza la información de manera segura.</p>
+          </li>
+          <li aria-hidden="true" class="pt-[38px] xl:pt-[117px]">
+            <svg class="h-4 w-9 text-naranja" viewBox="0 0 36 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h31M26 2l7 6-7 6"/></svg>
+          </li>
+          <li class="group flex flex-col items-center">
+            <img src="assets/img/paso-3.png" alt="" width="98" height="98" class="size-[96px] rounded-full transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105 xl:size-[94px]">
+            <span class="mt-4 flex size-[34px] items-center justify-center rounded-full bg-verde text-[14px] text-white transition-colors duration-300 group-hover:bg-dorado xl:mt-3">3</span>
+            <p class="mt-2 max-w-[150px] text-[13px] leading-[13px] text-verde xl:max-w-[140px] xl:text-[11.5px] xl:leading-[12px]">Se puede rastrear cada lote desde su origen hasta el destino.</p>
+          </li>
+          <li aria-hidden="true" class="pt-[38px] xl:pt-[117px]">
+            <svg class="h-4 w-9 text-naranja" viewBox="0 0 36 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h31M26 2l7 6-7 6"/></svg>
+          </li>
+          <li class="group flex flex-col items-center">
+            <img src="assets/img/paso-4.png" alt="" width="106" height="104" class="size-[96px] rounded-full transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105 xl:size-[100px]">
+            <span class="mt-4 flex size-[34px] items-center justify-center rounded-full bg-verde text-[14px] text-white transition-colors duration-300 group-hover:bg-dorado xl:mt-3">4</span>
+            <p class="mt-2 max-w-[170px] text-[13px] leading-[13px] text-verde xl:max-w-[150px] xl:text-[11.5px] xl:leading-[12px]">Chocolate de calidad con origen transparente y sostenible.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ================= PLATAFORMA INTEGRAL ================= -->
+    <section id="funcionalidades" class="bg-white">
+      <div class="mx-auto max-w-[1440px] px-[25px] pt-[38px] pb-[50px] md:px-[50px] md:pt-[32px] md:pb-[44px] lg:px-[35px] lg:pt-[46px] lg:pb-[58px]">
+        <p data-reveal class="text-center text-[18px] font-bold uppercase text-verde md:text-[30px] lg:text-[29px]">Plataforma integral</p>
+        <h2 data-reveal style="--d:100ms" class="mx-auto mt-[44px] max-w-[300px] text-center text-[29px] font-bold leading-[33px] text-black md:mt-[20px] md:max-w-[640px] md:text-[44px] md:leading-[48px] lg:mt-[44px] lg:max-w-none lg:text-[46px]">
+          Todo lo que necesitas en un solo lugar
+        </h2>
+
+        <ul data-stagger class="mt-[44px] grid gap-[28px] md:mt-[48px] md:grid-cols-2 md:gap-x-[52px] md:gap-y-[28px] lg:mt-[58px] lg:grid-cols-4 lg:gap-[46px]">
+          <!-- Gestión de productores (1° en escritorio, 2° en tablet/móvil) -->
+          <li class="order-2 card flex flex-col items-center border-[3px] border-borde bg-white transition duration-300 hover:-translate-y-1 hover:border-verde-claro hover:shadow-[0_14px_28px_rgba(69,108,51,0.16)] px-5 pt-[30px] pb-[18px] text-center lg:order-1 lg:min-h-[350px] lg:pt-[25px] lg:pb-[16px]">
+            <img src="assets/img/icono-productores.png" alt="" width="122" height="104" class="h-[86px] w-auto md:h-[94px] lg:h-[104px]">
+            <h3 class="mt-[22px] px-4 text-[26px] font-semibold leading-[30px] md:px-0 text-black md:mt-[16px] md:text-[29px] md:leading-[31px] lg:mt-[24px] lg:font-fig lg:text-[17.5px] lg:leading-[22px] lg:text-verde">Gestión de productores</h3>
+            <p class="mt-[16px] px-2 text-[16px] leading-[17px] text-black md:mt-[14px] md:px-0 md:text-[20px] md:leading-[20px] lg:mt-[30px] lg:text-[17px] lg:leading-[20px]">Registra y administra la información de productores, fincas y cosechas.</p>
+            <div class="card-more" id="more-productores"><div><p class="pt-3 text-[13px] leading-[18px] text-cafe lg:text-[14px]">Perfiles de productor, georreferenciación de fincas, registro de cosechas y certificaciones en un solo lugar.</p></div></div>
+            <button type="button" aria-expanded="false" class="card-toggle mt-auto inline-flex items-center gap-3 self-end pt-[18px] font-fig text-[12px] font-semibold text-verde-link transition-opacity duration-200 hover:opacity-75 md:text-[14px] lg:gap-5 lg:self-center lg:pt-[22px] lg:text-[23px]">
+              Ver más <span class="sr-only">sobre gestión de productores</span>
+              <svg aria-hidden="true" class="card-arrow size-4 transition-transform duration-300 lg:size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M14 5l7 7-7 7"/></svg>
+            </button>
+          </li>
+
+          <!-- Trazabilidad completa -->
+          <li class="order-1 card flex flex-col items-center border-[3px] border-borde bg-white transition duration-300 hover:-translate-y-1 hover:border-verde-claro hover:shadow-[0_14px_28px_rgba(69,108,51,0.16)] px-5 pt-[30px] pb-[18px] text-center lg:order-2 lg:min-h-[350px] lg:pt-[20px] lg:pb-[16px]">
+            <img src="assets/img/icono-trazabilidad.png" alt="" width="104" height="112" class="h-[86px] w-auto md:h-[94px] lg:h-[112px]">
+            <h3 class="mt-[22px] px-4 text-[26px] font-semibold leading-[30px] md:px-0 text-black md:mt-[16px] md:text-[29px] md:leading-[31px] lg:mt-[20px] lg:font-fig lg:text-[17.5px] lg:leading-[22px] lg:text-verde">Trazabilidad completa</h3>
+            <p class="mt-[16px] px-2 text-[16px] leading-[17px] text-black md:mt-[14px] md:px-0 md:text-[20px] md:leading-[20px] lg:mt-[40px] lg:text-[17px] lg:leading-[20px]">Rastrea cada lote de cacao desde la finca hasta el cliente final.</p>
+            <div class="card-more" id="more-trazabilidad"><div><p class="pt-3 text-[13px] leading-[18px] text-cafe lg:text-[14px]">Cada lote recibe un código único que registra fermentación, secado, almacenamiento y despacho.</p></div></div>
+            <button type="button" aria-expanded="false" class="card-toggle mt-auto inline-flex items-center gap-3 self-end pt-[18px] font-fig text-[12px] font-semibold text-verde-link transition-opacity duration-200 hover:opacity-75 md:text-[14px] lg:gap-5 lg:self-center lg:pt-[22px] lg:text-[23px]">
+              Ver más <span class="sr-only">sobre trazabilidad completa</span>
+              <svg aria-hidden="true" class="card-arrow size-4 transition-transform duration-300 lg:size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M14 5l7 7-7 7"/></svg>
+            </button>
+          </li>
+
+          <!-- Reportes y analítica -->
+          <li class="order-3 card flex flex-col items-center border-[3px] border-borde bg-white transition duration-300 hover:-translate-y-1 hover:border-verde-claro hover:shadow-[0_14px_28px_rgba(69,108,51,0.16)] px-5 pt-[30px] pb-[18px] text-center lg:min-h-[350px] lg:pt-[27px] lg:pb-[16px]">
+            <img src="assets/img/icono-reportes.png" alt="" width="112" height="92" class="h-[86px] w-auto md:h-[94px] lg:h-[92px]">
+            <h3 class="mt-[22px] px-4 text-[26px] font-semibold leading-[30px] md:px-0 text-black md:mt-[16px] md:text-[29px] md:leading-[31px] lg:mt-[33px] lg:font-fig lg:text-[17.5px] lg:leading-[22px] lg:text-verde">Resportes y analitica</h3>
+            <p class="mt-[16px] px-2 text-[16px] leading-[17px] text-black md:mt-[14px] md:px-0 md:text-[20px] md:leading-[20px] lg:mt-[30px] lg:text-[17px] lg:leading-[20px]">Obtén información clave para tomar mejores decisiones en tu negocio.</p>
+            <div class="card-more" id="more-reportes"><div><p class="pt-3 text-[13px] leading-[18px] text-cafe lg:text-[14px]">Tableros de producción, calidad y ventas con reportes exportables para tu equipo y tus compradores.</p></div></div>
+            <button type="button" aria-expanded="false" class="card-toggle mt-auto inline-flex items-center gap-3 self-end pt-[18px] font-fig text-[12px] font-semibold text-verde-link transition-opacity duration-200 hover:opacity-75 md:text-[14px] lg:gap-5 lg:self-center lg:pt-[22px] lg:text-[23px]">
+              Ver más <span class="sr-only">sobre reportes y analítica</span>
+              <svg aria-hidden="true" class="card-arrow size-4 transition-transform duration-300 lg:size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M14 5l7 7-7 7"/></svg>
+            </button>
+          </li>
+
+          <!-- Sostenibilidad -->
+          <li class="order-4 card flex flex-col items-center border-[3px] border-borde bg-white transition duration-300 hover:-translate-y-1 hover:border-verde-claro hover:shadow-[0_14px_28px_rgba(69,108,51,0.16)] px-5 pt-[30px] pb-[18px] text-center lg:min-h-[350px] lg:pt-[17px] lg:pb-[16px]">
+            <img src="assets/img/icono-sostenibilidad.png" alt="" width="96" height="112" class="h-[86px] w-auto md:h-[94px] lg:h-[112px]">
+            <h3 class="mt-[22px] px-4 text-[26px] font-semibold leading-[30px] md:px-0 text-black md:mt-[16px] md:text-[29px] md:leading-[31px] lg:mt-[23px] lg:font-fig lg:text-[17.5px] lg:leading-[22px] lg:text-verde">Sostenibilidad</h3>
+            <p class="mt-[16px] px-2 text-[16px] leading-[17px] text-black md:mt-[14px] md:px-0 md:text-[20px] md:leading-[20px] lg:mt-[40px] lg:text-[17px] lg:leading-[20px]">Promueve prácticas sostenibles y relaciones comerciales justas.</p>
+            <div class="card-more" id="more-sostenibilidad"><div><p class="pt-3 text-[13px] leading-[18px] text-cafe lg:text-[14px]">Seguimiento de buenas prácticas agrícolas, precios justos y evidencia para certificaciones de sostenibilidad.</p></div></div>
+            <button type="button" aria-expanded="false" class="card-toggle mt-auto inline-flex items-center gap-3 self-end pt-[18px] font-fig text-[12px] font-semibold text-verde-link transition-opacity duration-200 hover:opacity-75 md:text-[14px] lg:gap-5 lg:self-center lg:pt-[22px] lg:text-[23px]">
+              Ver más <span class="sr-only">sobre sostenibilidad</span>
+              <svg aria-hidden="true" class="card-arrow size-4 transition-transform duration-300 lg:size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M14 5l7 7-7 7"/></svg>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= BANNER ================= -->
+    <section class="relative overflow-hidden bg-verde lg:bg-banner" aria-label="Nuestra misión">
+      <div class="relative mx-auto h-[256px] max-w-[1440px] md:h-[496px] lg:h-[508px]">
+        <img src="assets/img/banner-cacao.png" alt="Mano sosteniendo una mazorca de cacao en el árbol" width="900" height="500" loading="lazy"
+             class="absolute inset-y-0 right-0 h-full w-[56%] object-cover object-[35%_50%] lg:w-[62.5%] lg:object-center">
+        <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(90deg,var(--color-verde)_0%,var(--color-verde)_44%,rgba(69,108,51,0.55)_52%,rgba(69,108,51,0.18)_70%,rgba(69,108,51,0.12)_100%)] lg:bg-[linear-gradient(90deg,var(--color-banner)_0%,var(--color-banner)_37.5%,rgba(27,54,29,0)_60%)]"></div>
+        <p data-reveal class="absolute top-1/2 left-[22px] max-w-[130px] -translate-y-[38%] font-alt text-[15px] font-medium leading-[18px] text-dorado md:left-[25px] md:max-w-[300px] md:-translate-y-[30%] md:text-[34px] md:font-bold md:leading-[39px] lg:left-[67px] lg:max-w-[470px] lg:-translate-y-[48%] lg:text-[33px] lg:leading-[40px]">
+          Tecnología para una cadena de cacao más transparente y sostenible.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= IMPACTO GENERADO ================= -->
+    <section class="bg-white" aria-labelledby="impacto-titulo">
+      <div class="mx-auto max-w-[1440px] px-[20px] pt-[44px] pb-[60px] md:px-[56px] md:pt-[46px] md:pb-[22px] lg:px-[60px] lg:pt-[50px] lg:pb-[50px]">
+        <h2 id="impacto-titulo" class="mx-auto max-w-[260px] text-center text-[36px] font-bold leading-[38px] text-black md:max-w-none md:text-[38px] lg:text-[39px]">IMPACTO GENERADO</h2>
+
+        <ul data-stagger class="impact mt-[28px] grid gap-y-[60px] md:mt-[40px] md:grid-cols-2 md:gap-x-[100px] md:gap-y-[22px] lg:mt-[50px] lg:grid-cols-4 lg:gap-x-[30px]">
+          <!-- 1 -->
+          <li class="flex flex-col items-center text-center">
+            <div class="flex items-center justify-center gap-[24px] md:gap-[18px] lg:flex-col lg:gap-[22px]">
+              <button type="button" class="stat-trigger" data-stat="exportadores" aria-haspopup="dialog" aria-label="Ver detalle: países que más cacao exportaron en 2025">
+                <img src="assets/img/impacto-1.png" alt="" width="240" height="228" loading="lazy" class="h-[132px] w-auto md:h-[84px] lg:h-[228px]">
+                <span class="stat-badge" aria-hidden="true"><svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+              </button>
+              <p class="text-[20px] font-bold leading-[24px] text-cafe md:text-[21px] md:leading-[23px] lg:text-[44px] lg:leading-[48px]"><span data-count="3.86" data-decimals="2" data-dec=".">3.86</span><br>millones t</p>
+            </div>
+            <p class="mt-[22px] text-[17px] leading-[20px] text-black md:mt-[10px] md:text-[18px] md:leading-[20px] lg:order-last lg:mt-[30px] lg:text-[16px] lg:leading-[19px]">Cacao en grano exportado<br>mundialmente en 2025</p>
+            <span aria-hidden="true" class="mt-[38px] impact-bar block h-[4px] w-[250px] bg-verde md:mt-[14px] md:w-[226px] lg:mt-[32px] lg:h-[8px] lg:w-[160px]"></span>
+          </li>
+          <!-- 2 -->
+          <li class="flex flex-col items-center text-center">
+            <div class="flex flex-row-reverse items-center justify-center gap-[24px] md:gap-[14px] lg:flex-col lg:gap-[22px]">
+              <button type="button" class="stat-trigger" data-stat="destinos" aria-haspopup="dialog" aria-label="Ver detalle: destinos del cacao exportado por Colombia">
+                <img src="assets/img/impacto-2.png" alt="" width="222" height="240" loading="lazy" class="h-[150px] w-auto md:h-[84px] lg:h-[240px]">
+                <span class="stat-badge" aria-hidden="true"><svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+              </button>
+              <p class="text-[20px] font-bold leading-[24px] text-cafe md:text-[21px] lg:mt-[16px] lg:text-[44px] lg:leading-[48px]"><span data-count="16457" data-thousands=".">16.457</span> t</p>
+            </div>
+            <p class="mt-[22px] max-w-[260px] text-[17px] leading-[20px] text-black md:mt-[22px] md:text-[18px] lg:order-last lg:mt-[42px] lg:max-w-[300px] lg:text-[16px] lg:leading-[19px]">Cacao en grano exportado por Colombia</p>
+            <span aria-hidden="true" class="mt-[30px] impact-bar block h-[4px] w-[250px] bg-rosa md:mt-[14px] md:w-[226px] lg:mt-[44px] lg:h-[8px] lg:w-[160px]"></span>
+          </li>
+          <!-- 3 -->
+          <li class="flex flex-col items-center text-center">
+            <div class="flex items-center justify-center gap-[34px] md:gap-[24px] lg:flex-col lg:gap-[22px]">
+              <button type="button" class="stat-trigger" data-stat="participacion" aria-haspopup="dialog" aria-label="Ver detalle: participación de Colombia frente a otros exportadores">
+                <img src="assets/img/impacto-3.png" alt="" width="232" height="212" loading="lazy" class="h-[120px] w-auto md:h-[80px] lg:h-[212px]">
+                <span class="stat-badge" aria-hidden="true"><svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+              </button>
+              <p class="text-[20px] font-bold leading-[24px] text-cafe md:text-[21px] lg:mt-[30px] lg:text-[44px] lg:leading-[48px]"><span data-count="0.5" data-decimals="1" data-dec=",">0,5</span> %</p>
+            </div>
+            <p class="mt-[16px] max-w-[270px] text-[17px] leading-[20px] text-black md:mt-[10px] md:text-[18px] lg:order-last lg:mt-[40px] lg:max-w-[300px] lg:text-[16px] lg:leading-[19px]">Participación de Colombia en las exportaciones mundiales</p>
+            <span aria-hidden="true" class="mt-[22px] impact-bar block h-[4px] w-[250px] bg-verde-claro md:mt-[14px] md:w-[250px] lg:mt-[44px] lg:h-[8px] lg:w-[160px]"></span>
+          </li>
+          <!-- 4 -->
+          <li class="flex flex-col items-center text-center">
+            <div class="flex flex-row-reverse items-center justify-center gap-[8px] md:gap-[4px] lg:flex-col lg:gap-[22px]">
+              <button type="button" class="stat-trigger" data-stat="valor" aria-haspopup="dialog" aria-label="Ver detalle: evolución del valor exportado por Colombia">
+                <img src="assets/img/impacto-4.png" alt="" width="236" height="226" loading="lazy" class="h-[132px] w-auto md:h-[84px] lg:h-[226px]">
+                <span class="stat-badge" aria-hidden="true"><svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+              </button>
+              <p class="text-[22px] font-bold leading-[24px] text-cafe md:text-[21px] md:leading-[23px] lg:text-[44px] lg:leading-[48px]">US$<span data-count="138">138</span><br>millones</p>
+            </div>
+            <p class="mt-[16px] max-w-[270px] text-[17px] leading-[20px] text-black md:mt-[8px] md:max-w-[260px] md:text-[18px] lg:order-last lg:mt-[30px] lg:max-w-[300px] lg:text-[16px] lg:leading-[19px]">Valor de las exportaciones colombianas de cacao en grano</p>
+            <span aria-hidden="true" class="mt-[22px] impact-bar block h-[4px] w-[250px] bg-dorado md:mt-[14px] md:w-[250px] lg:mt-[32px] lg:h-[8px] lg:w-[160px]"></span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section id="contacto" class="bg-crema" aria-labelledby="cta-titulo">
+      <div class="mx-auto grid max-w-[1440px] grid-cols-[auto_1fr] items-center gap-x-[12px] px-[24px] pt-[28px] pb-[20px] md:grid-cols-[auto_1fr] md:gap-x-[24px] md:px-[40px] md:pt-[30px] md:pb-[14px] lg:grid-cols-[auto_1fr_auto] lg:gap-x-[64px] lg:px-[104px] lg:py-[36px]">
+        <img src="assets/img/icono-soporte.png" alt="" width="90" height="88" class="ml-[18px] size-[64px] md:ml-0 md:size-[80px] md:self-start lg:size-[82px] lg:self-center">
+        <div class="contents md:block">
+          <h2 id="cta-titulo" class="text-center text-[20px] font-bold leading-[22px] text-black md:text-left md:text-[19px] lg:text-center lg:text-[30px] lg:leading-[36px]">
+            ¿Listo para transformar tu cadena de valor?
+          </h2>
+          <p class="col-span-2 mt-[24px] text-center text-[14px] leading-[16px] text-black md:col-auto md:mt-[12px] md:text-left md:text-[12.5px] lg:mt-[14px] lg:text-center lg:text-[14px]">
+            Hablemos de cómo CACAOTERO puede ayudar a tu organización.
+          </p>
+        </div>
+        <button type="button" data-open="dlg-demo" class="group col-span-2 mt-[26px] inline-flex h-[54px] items-center justify-center gap-2 justify-self-center bg-vino px-[16px] text-[16px] text-white transition-colors duration-200 hover:bg-[#62151e] md:col-start-2 md:mt-[8px] md:h-[40px] md:justify-self-end md:px-[11px] md:text-[12px] lg:col-auto lg:col-start-3 lg:mt-0 lg:h-[54px] lg:px-[14px] lg:text-[15px]" style="font-family: Arial, Helvetica, sans-serif">
+          Solicitar Demostración
+          <svg aria-hidden="true" class="size-4 transition-transform duration-200 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-dorado text-white">
+    <div class="mx-auto grid max-w-[1440px] grid-cols-[1fr_auto] px-[10px] pt-[10px] pb-[8px] md:px-[34px] md:pt-[22px] md:pb-[16px] lg:px-[40px] lg:pt-[28px] lg:pb-[14px]">
+      <div class="flex flex-col">
+        <img src="assets/img/logo-footer.png" alt="Cacaotero" width="270" height="192" loading="lazy"
+             class="ml-[4px] h-[62px] w-auto self-start md:ml-[10px] md:h-[154px] lg:ml-[38px] lg:h-[190px]">
+        <p class="mt-[6px] max-w-[136px] text-[12px] font-light leading-[11px] md:mt-[12px] md:max-w-[220px] md:text-[14.5px] md:leading-[14px] lg:mt-[16px] lg:max-w-[390px] lg:text-[19px] lg:leading-[20px]">
+          Plataforma digital para la trazabilidad y gestión de la cadena de cacao.
+        </p>
+        <ul class="mt-[12px] flex items-center gap-[10px] md:mt-[16px] md:ml-[34px] md:gap-[18px] lg:mt-[22px] lg:ml-[68px] lg:gap-[28px]" aria-label="Redes sociales">
+          <li>
+            <a href="#" aria-label="Facebook" class="block transition-transform duration-200 hover:-translate-y-0.5 hover:scale-110">
+              <svg class="h-[20px] w-auto md:h-[36px] lg:h-[46px]" viewBox="0 0 12 24" fill="currentColor" aria-hidden="true"><path d="M8 24V13.1h3.5l.5-4.2H8V6.2c0-1.2.3-2 2.1-2H12V.5C11.6.4 10.4.3 9 .3 6 .3 3.9 2.1 3.9 5.5v3.4H.5v4.2h3.4V24z"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="Instagram" class="block transition-transform duration-200 hover:-translate-y-0.5 hover:scale-110">
+              <svg class="size-[20px] md:size-[30px] lg:size-[46px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="WhatsApp" class="block transition-transform duration-200 hover:-translate-y-0.5 hover:scale-110">
+              <svg class="size-[20px] md:size-[30px] lg:size-[46px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3.3 20.7l1.3-4.3A9.3 9.3 0 1 1 8 19.6z"/><path fill="currentColor" stroke="none" d="M8.6 7.3c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.1.1.7-.2 1.3-.2.6-1.3 1.2-1.8 1.3-.5 0-.9.2-3-.6-2.5-1-4.1-3.6-4.2-3.8-.1-.2-1-1.4-1-2.6 0-1.3.6-1.9.9-2.2z"/></svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <nav aria-labelledby="footer-nav" class="pt-[16px] pr-[18px] md:pt-[24px] md:pr-[44px] lg:pt-[30px] lg:pr-[154px]">
+        <h2 id="footer-nav" class="text-[13px] font-semibold md:text-[31px] lg:text-[32px]">Navegación</h2>
+        <ul class="mt-[8px] space-y-[1px] pl-[2px] text-[10px] md:mt-[20px] md:space-y-[10px] md:pl-[6px] md:text-[19px] lg:mt-[24px] lg:space-y-[10px] lg:pl-[14px] lg:text-[19px]">
+          <li><a href="#inicio" class="transition-opacity duration-200 hover:opacity-75">Inicio</a></li>
+          <li><a href="#" class="transition-opacity duration-200 hover:opacity-75">Nosotros</a></li>
+          <li><a href="#trazabilidad" class="transition-opacity duration-200 hover:opacity-75">Trazabilidad</a></li>
+          <li><a href="#funcionalidades" class="transition-opacity duration-200 hover:opacity-75">Funcionalidades</a></li>
+        </ul>
+      </nav>
+
+      <p class="col-span-2 mt-[8px] flex items-center justify-center gap-1 text-[9px] md:mt-[40px] md:gap-2 md:text-[14.5px] lg:mt-[48px] lg:text-[13px]">
+        <span class="text-[13px] md:text-[22px] lg:text-[20px]" aria-hidden="true">&copy;</span>
+        <span>2024 COCOATERO. Todos los derechos reservados</span>
+      </p>
+    </div>
+  </footer>
+
+  <!-- ================= MODAL: SOLICITAR DEMOSTRACIÓN ================= -->
+  <dialog id="dlg-demo" aria-labelledby="dlg-demo-title" class="m-auto w-[min(92vw,500px)] rounded-2xl bg-white p-0 text-black shadow-2xl">
+    <div class="relative px-6 pt-6 pb-7 md:px-8">
+      <button type="button" data-close aria-label="Cerrar" class="absolute top-3 right-3 flex size-11 items-center justify-center rounded-full text-cafe transition-colors duration-200 hover:bg-beige">
+        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+
+      <div data-form-view>
+        <p class="font-serif text-[15px] font-bold italic text-verde">Hablemos</p>
+        <h2 id="dlg-demo-title" class="mt-1 pr-10 text-[22px] font-bold leading-tight">Solicitar demostración</h2>
+        <p class="mt-2 text-[14px] text-cafe">Déjanos tus datos y te mostraremos cómo CACAOTERO puede ayudar a tu organización.</p>
+
+        <form novalidate class="mt-5 space-y-4" data-validate>
+          <div>
+            <label for="demo-nombre" class="block text-[14px] font-semibold">Nombre completo</label>
+            <input id="demo-nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="demo-nombre-err"
+                   class="mt-1 h-12 w-full rounded-lg border border-borde px-3 text-[16px] transition-colors focus:border-verde focus:outline-none focus:ring-2 focus:ring-verde/30 aria-[invalid=true]:border-vino">
+            <p id="demo-nombre-err" class="mt-1 hidden text-[13px] text-vino" data-error>Escribe tu nombre.</p>
+          </div>
+          <div>
+            <label for="demo-email" class="block text-[14px] font-semibold">Correo electrónico</label>
+            <input id="demo-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="demo-email-err"
+                   class="mt-1 h-12 w-full rounded-lg border border-borde px-3 text-[16px] transition-colors focus:border-verde focus:outline-none focus:ring-2 focus:ring-verde/30 aria-[invalid=true]:border-vino">
+            <p id="demo-email-err" class="mt-1 hidden text-[13px] text-vino" data-error>Escribe un correo válido, por ejemplo nombre@empresa.com.</p>
+          </div>
+          <div class="grid gap-4 md:grid-cols-2">
+            <div>
+              <label for="demo-org" class="block text-[14px] font-semibold">Organización</label>
+              <input id="demo-org" name="organizacion" type="text" autocomplete="organization" required aria-describedby="demo-org-err"
+                     class="mt-1 h-12 w-full rounded-lg border border-borde px-3 text-[16px] transition-colors focus:border-verde focus:outline-none focus:ring-2 focus:ring-verde/30 aria-[invalid=true]:border-vino">
+              <p id="demo-org-err" class="mt-1 hidden text-[13px] text-vino" data-error>Escribe el nombre de tu organización.</p>
+            </div>
+            <div>
+              <label for="demo-tel" class="block text-[14px] font-semibold">Teléfono <span class="font-normal text-cafe">(opcional)</span></label>
+              <input id="demo-tel" name="telefono" type="tel" autocomplete="tel" inputmode="tel"
+                     class="mt-1 h-12 w-full rounded-lg border border-borde px-3 text-[16px] transition-colors focus:border-verde focus:outline-none focus:ring-2 focus:ring-verde/30">
+            </div>
+          </div>
+          <div>
+            <label for="demo-rol" class="block text-[14px] font-semibold">Soy…</label>
+            <select id="demo-rol" name="rol" class="mt-1 h-12 w-full rounded-lg border border-borde bg-white px-3 text-[16px] focus:border-verde focus:outline-none focus:ring-2 focus:ring-verde/30">
+              <option>Productor</option>
+              <option>Asociación o cooperativa</option>
+              <option>Comercializador / exportador</option>
+              <option>Fabricante de chocolate</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <button type="submit" class="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-vino text-[16px] font-medium text-white transition-colors duration-200 hover:bg-[#62151e] disabled:opacity-60">
+            <span data-label>Enviar solicitud</span>
+            <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </form>
+      </div>
+
+      <div data-success-view hidden class="py-6 text-center" tabindex="-1">
+        <span class="mx-auto flex size-16 items-center justify-center rounded-full bg-verde text-white">
+          <svg aria-hidden="true" class="size-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>
+        </span>
+        <h2 class="mt-4 text-[22px] font-bold">¡Solicitud enviada!</h2>
+        <p class="mt-2 text-[14px] text-cafe">Gracias por tu interés. Nuestro equipo te contactará muy pronto.</p>
+        <button type="button" data-close class="mt-6 h-12 rounded-lg bg-verde-btn px-6 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#1c5621]">Entendido</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ================= MODAL: INGRESAR ================= -->
+  <dialog id="dlg-login" aria-labelledby="dlg-login-title" class="m-auto w-[min(92vw,420px)] rounded-2xl bg-white p-0 text-black shadow-2xl">
+    <div class="relative px-6 pt-6 pb-7 md:px-8">
+      <button type="button" data-close aria-label="Cerrar" class="absolute top-3 right-3 flex size-11 items-center justify-center rounded-full text-cafe transition-colors duration-200 hover:bg-beige">
+        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+
+      <div data-form-view>
+        <img src="assets/img/logo.png" alt="" width="206" height="144" class="mx-auto h-20 w-auto">
+        <h2 id="dlg-login-title" class="mt-3 text-center text-[22px] font-bold">Ingresar a la plataforma</h2>
+
+        <form novalidate class="mt-5 space-y-4" data-validate>
+          <div>
+            <label for="login-email" class="block text-[14px] font-semibold">Correo electrónico</label>
+            <input id="login-email" name="email" type="email" autocomplete="username" inputmode="email" required aria-describedby="login-email-err"
+                   class="mt-1 h-12 w-full rounded-lg border border-borde px-3 text-[16px] transition-colors focus:border-verde focus:outline-none focus:ring-2 focus:ring-verde/30 aria-[invalid=true]:border-vino">
+            <p id="login-email-err" class="mt-1 hidden text-[13px] text-vino" data-error>Escribe un correo válido.</p>
+          </div>
+          <div>
+            <label for="login-pass" class="block text-[14px] font-semibold">Contraseña</label>
+            <div class="relative mt-1">
+              <input id="login-pass" name="password" type="password" autocomplete="current-password" required minlength="6" aria-describedby="login-pass-err"
+                     class="h-12 w-full rounded-lg border border-borde pr-12 pl-3 text-[16px] transition-colors focus:border-verde focus:outline-none focus:ring-2 focus:ring-verde/30 aria-[invalid=true]:border-vino">
+              <button type="button" data-toggle-pass aria-label="Mostrar contraseña" aria-pressed="false" class="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-cafe">
+                <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <p id="login-pass-err" class="mt-1 hidden text-[13px] text-vino" data-error>La contraseña debe tener al menos 6 caracteres.</p>
+          </div>
+          <div class="flex items-center justify-between text-[14px]">
+            <label class="inline-flex items-center gap-2"><input type="checkbox" class="size-4 accent-[#256C2B]"> Recordarme</label>
+            <a href="#" class="font-medium text-verde-link underline-offset-2 hover:underline">¿Olvidaste tu contraseña?</a>
+          </div>
+          <button type="submit" class="flex h-12 w-full items-center justify-center rounded-lg bg-cafe text-[16px] font-semibold text-white transition-colors duration-200 hover:bg-[#4f3b29] disabled:opacity-60">
+            <span data-label>Ingresar</span>
+          </button>
+        </form>
+      </div>
+
+      <div data-success-view hidden class="py-6 text-center" tabindex="-1">
+        <span class="mx-auto flex size-16 items-center justify-center rounded-full bg-verde text-white">
+          <svg aria-hidden="true" class="size-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>
+        </span>
+        <h2 class="mt-4 text-[22px] font-bold">¡Bienvenido!</h2>
+        <p class="mt-2 text-[14px] text-cafe">Este es un prototipo: aquí se conectará el acceso a la plataforma.</p>
+        <button type="button" data-close class="mt-6 h-12 rounded-lg bg-verde-btn px-6 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#1c5621]">Cerrar</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ================= MODAL: DETALLE DE IMPACTO ================= -->
+  <dialog id="dlg-stat" class="stat-dlg" aria-labelledby="stat-title" aria-describedby="stat-sub">
+    <div class="stat-inner" tabindex="-1" autofocus>
+      <button type="button" class="stat-close" data-stat-close aria-label="Cerrar">
+        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <header class="stat-head">
+        <img id="stat-img" class="stat-img" src="assets/img/impacto-1.png" alt="" width="240" height="228">
+        <div>
+          <p class="stat-eyebrow">Impacto generado</p>
+          <h2 id="stat-title" class="stat-title"></h2>
+          <p id="stat-sub" class="stat-sub"></p>
+        </div>
+      </header>
+      <div class="stat-kpi st-anim" style="--i:0">
+        <span id="stat-kpi-value" class="stat-kpi-value"></span>
+        <span id="stat-kpi-label" class="stat-kpi-label"></span>
+      </div>
+      <div id="stat-body"></div>
+      <p class="stat-fact st-anim" id="stat-fact-wrap">
+        <svg aria-hidden="true" class="mt-0.5 size-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg>
+        <span id="stat-fact"></span>
+      </p>
+      <p class="stat-note">Cifras de referencia para el prototipo. Reemplázalas por datos oficiales (ICCO, DANE o UN Comtrade) antes de publicar.</p>
+      <button type="button" class="stat-ok" data-stat-close>Cerrar</button>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---------- Menú móvil ---------- */
+      var btn = document.getElementById('menu-btn');
+      var menu = document.getElementById('menu-movil');
+      var lines = btn.querySelectorAll('span');
+      function setMenu(open) {
+        btn.setAttribute('aria-expanded', String(open));
+        btn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+        menu.hidden = !open;
+        lines[0].style.transform = open ? 'translateY(11.5px) rotate(45deg)' : '';
+        lines[1].style.opacity = open ? '0' : '';
+        lines[2].style.transform = open ? 'translateY(-11.5px) rotate(-45deg)' : '';
+      }
+      btn.addEventListener('click', function () { setMenu(btn.getAttribute('aria-expanded') !== 'true'); });
+      menu.addEventListener('click', function (e) { if (e.target.closest('a, button')) setMenu(false); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+
+      /* ---------- Sombra del encabezado al hacer scroll ---------- */
+      var header = document.getElementById('site-header');
+      function onScroll() { header.classList.toggle('shadow-[0_4px_18px_rgba(0,0,0,0.08)]', window.scrollY > 8); }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      /* ---------- Enlace activo según la sección visible ---------- */
+      var navLinks = document.querySelectorAll('.nav-link');
+      var navObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          navLinks.forEach(function (a) {
+            a.setAttribute('aria-current', a.getAttribute('href') === '#' + entry.target.id ? 'true' : 'false');
+          });
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      ['inicio', 'trazabilidad', 'funcionalidades', 'contacto'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) navObserver.observe(el);
+      });
+
+      /* ---------- Contadores ---------- */
+      function format(value, el) {
+        var decimals = parseInt(el.dataset.decimals || '0', 10);
+        var parts = value.toFixed(decimals).split('.');
+        if (el.dataset.thousands) parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, el.dataset.thousands);
+        return parts.length > 1 ? parts[0] + (el.dataset.dec || ',') + parts[1] : parts[0];
+      }
+      function runCounter(el) {
+        var target = parseFloat(el.dataset.count);
+        if (reduceMotion) { el.textContent = format(target, el); return; }
+        var start = null, duration = 1400;
+        function step(ts) {
+          if (start === null) start = ts;
+          var p = Math.min((ts - start) / duration, 1);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = format(target * eased, el);
+          if (p < 1) requestAnimationFrame(step);
+        }
+        el.textContent = format(0, el);
+        requestAnimationFrame(step);
+      }
+
+      /* ---------- Aparición al hacer scroll ---------- */
+      document.querySelectorAll('[data-stagger]').forEach(function (list) {
+        Array.prototype.forEach.call(list.children, function (child, i) {
+          child.setAttribute('data-reveal', '');
+          child.style.setProperty('--d', (i * 90) + 'ms');
+        });
+      });
+      var revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          entry.target.querySelectorAll('[data-count]').forEach(runCounter);
+          revealObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('[data-reveal]').forEach(function (el) { revealObserver.observe(el); });
+
+      /* ---------- Tarjetas "Ver más" ---------- */
+      document.querySelectorAll('.card-toggle').forEach(function (toggle) {
+        var card = toggle.closest('.card');
+        var panel = card.querySelector('.card-more');
+        toggle.setAttribute('aria-controls', panel.id);
+        toggle.addEventListener('click', function () {
+          var open = !card.classList.contains('is-open');
+          card.classList.toggle('is-open', open);
+          toggle.setAttribute('aria-expanded', String(open));
+        });
+      });
+
+      /* ---------- Modales ---------- */
+      function resetDialog(dlg) {
+        var form = dlg.querySelector('form');
+        if (!form) return;
+        form.reset();
+        form.querySelectorAll('[aria-invalid]').forEach(function (f) { f.removeAttribute('aria-invalid'); });
+        form.querySelectorAll('[data-error]').forEach(function (e) { e.classList.add('hidden'); });
+        dlg.querySelector('[data-form-view]').hidden = false;
+        dlg.querySelector('[data-success-view]').hidden = true;
+        var submit = form.querySelector('[type=submit]');
+        submit.disabled = false;
+      }
+      document.querySelectorAll('[data-open]').forEach(function (opener) {
+        opener.addEventListener('click', function () {
+          var dlg = document.getElementById(opener.dataset.open);
+          resetDialog(dlg);
+          setMenu(false);
+          dlg.showModal();
+        });
+      });
+      document.querySelectorAll('dialog:not(.stat-dlg)').forEach(function (dlg) {
+        dlg.addEventListener('click', function (e) {
+          if (e.target === dlg || e.target.closest('[data-close]')) dlg.close();
+        });
+      });
+
+      /* ---------- Mostrar / ocultar contraseña ---------- */
+      document.querySelectorAll('[data-toggle-pass]').forEach(function (t) {
+        t.addEventListener('click', function () {
+          var input = t.parentElement.querySelector('input');
+          var show = input.type === 'password';
+          input.type = show ? 'text' : 'password';
+          t.setAttribute('aria-pressed', String(show));
+          t.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
+        });
+      });
+
+      /* ---------- Validación de formularios ---------- */
+      function checkField(field) {
+        var err = document.getElementById(field.getAttribute('aria-describedby'));
+        var ok = field.checkValidity() && field.value.trim() !== '' || (!field.required && field.value === '');
+        if (field.type === 'email' && field.value) ok = ok && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value);
+        field.setAttribute('aria-invalid', String(!ok));
+        if (err) err.classList.toggle('hidden', ok);
+        return ok;
+      }
+      document.querySelectorAll('form[data-validate]').forEach(function (form) {
+        var fields = form.querySelectorAll('input[required]');
+        fields.forEach(function (f) {
+          f.addEventListener('blur', function () { if (f.value) checkField(f); });
+          f.addEventListener('input', function () { if (f.getAttribute('aria-invalid') === 'true') checkField(f); });
+        });
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var firstInvalid = null;
+          fields.forEach(function (f) { if (!checkField(f) && !firstInvalid) firstInvalid = f; });
+          if (firstInvalid) { firstInvalid.focus(); return; }
+          var submit = form.querySelector('[type=submit]');
+          var label = submit.querySelector('[data-label]');
+          var original = label.textContent;
+          submit.disabled = true;
+          label.textContent = 'Enviando…';
+          setTimeout(function () {
+            label.textContent = original;
+            var dlg = form.closest('dialog');
+            dlg.querySelector('[data-form-view]').hidden = true;
+            var ok = dlg.querySelector('[data-success-view]');
+            ok.hidden = false;
+            ok.focus();
+          }, 900);
+        });
+      });
+
+      /* ---------- Modal de detalle de impacto ---------- */
+      // Datos de ejemplo (quemados) para el prototipo.
+      var STATS = {
+        exportadores: {
+          img: 'assets/img/impacto-1.png',
+          title: 'Países que más cacao exportaron en 2025',
+          sub: 'Cacao en grano exportado por país y su participación en el total mundial.',
+          kpi: { to: 3.86, dec: 2, suffix: ' millones t', label: 'exportadas en todo el mundo' },
+          type: 'bars', unit: 'Mt',
+          rows: [
+            { name: 'Costa de Marfil', v: 1.55, pct: 40.2 },
+            { name: 'Ecuador', v: 0.48, pct: 12.4 },
+            { name: 'Ghana', v: 0.45, pct: 11.7 },
+            { name: 'Camerún', v: 0.30, pct: 7.8 },
+            { name: 'Nigeria', v: 0.28, pct: 7.3 },
+            { name: 'Otros países', v: 0.80, pct: 20.7 }
+          ],
+          fact: 'Costa de Marfil exporta por sí sola cerca de 4 de cada 10 toneladas de cacao del mundo.'
+        },
+        destinos: {
+          img: 'assets/img/impacto-2.png',
+          title: '¿A dónde va el cacao de Colombia?',
+          sub: 'Principales destinos del cacao en grano exportado por Colombia.',
+          kpi: { to: 16457, dec: 0, suffix: ' t', label: 'exportadas por Colombia' },
+          type: 'bars', unit: 't',
+          rows: [
+            { name: 'México', v: 6255, pct: 38 },
+            { name: 'Malasia', v: 2798, pct: 17 },
+            { name: 'Bélgica', v: 1810, pct: 11 },
+            { name: 'Países Bajos', v: 1481, pct: 9 },
+            { name: 'España', v: 1317, pct: 8 },
+            { name: 'Otros destinos', v: 2796, pct: 17 }
+          ],
+          fact: 'México compra más de un tercio del cacao en grano que exporta Colombia.'
+        },
+        participacion: {
+          img: 'assets/img/impacto-3.png',
+          title: 'Colombia en el mapa exportador',
+          sub: 'Participación en las exportaciones mundiales de cacao en grano, frente a otros países de América Latina.',
+          kpi: { to: 0.5, dec: 1, suffix: ' %', label: 'del cacao exportado en el mundo' },
+          type: 'bars', unit: '%',
+          rows: [
+            { name: 'Ecuador', v: 12.4 },
+            { name: 'Rep. Dominicana', v: 1.6 },
+            { name: 'Perú', v: 1.4 },
+            { name: 'Brasil', v: 0.6 },
+            { name: 'Colombia', v: 0.5, hl: true },
+            { name: 'Venezuela', v: 0.3 }
+          ],
+          fact: 'De cada 200 toneladas de cacao que se exportan en el mundo, 1 sale de Colombia.'
+        },
+        valor: {
+          img: 'assets/img/impacto-4.png',
+          title: 'Valor de las exportaciones colombianas',
+          sub: 'Cacao en grano exportado por Colombia, en millones de dólares (US$).',
+          kpi: { to: 138, dec: 0, prefix: 'US$', suffix: ' millones', label: 'exportados en 2025' },
+          type: 'cols',
+          rows: [
+            { name: '2021', v: 32 },
+            { name: '2022', v: 38 },
+            { name: '2023', v: 54 },
+            { name: '2024', v: 104 },
+            { name: '2025', v: 138, hl: true }
+          ],
+          fact: 'En cinco años el valor exportado se multiplicó por más de 4, impulsado por el alza del precio internacional del cacao.'
+        }
+      };
+
+      var nf = {};
+      function fmtNum(v, dec) {
+        var key = String(dec);
+        if (!nf[key]) nf[key] = new Intl.NumberFormat('es-CO', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+        return nf[key].format(v);
+      }
+      function countUp(el, to, dec, prefix, suffix, delay) {
+        prefix = prefix || ''; suffix = suffix || '';
+        if (reduceMotion) { el.textContent = prefix + fmtNum(to, dec) + suffix; return; }
+        el.textContent = prefix + fmtNum(0, dec) + suffix;
+        var start = null, duration = 1100;
+        // Respaldo: garantiza el valor final aunque el navegador pause las animaciones
+        setTimeout(function () { el.textContent = prefix + fmtNum(to, dec) + suffix; }, (delay || 0) + duration + 150);
+        setTimeout(function () {
+          requestAnimationFrame(function step(ts) {
+            if (start === null) start = ts;
+            var p = Math.min((ts - start) / duration, 1);
+            el.textContent = prefix + fmtNum(to * (1 - Math.pow(1 - p, 3)), dec) + suffix;
+            if (p < 1) requestAnimationFrame(step);
+          });
+        }, delay || 0);
+      }
+      function el(tag, cls, text) {
+        var n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (text != null) n.textContent = text;
+        return n;
+      }
+
+      var statDlg = document.getElementById('dlg-stat');
+      var statBody = document.getElementById('stat-body');
+      var statTrigger = null;
+      var closing = false;
+
+      function renderStat(data) {
+        document.getElementById('stat-img').src = data.img;
+        document.getElementById('stat-title').textContent = data.title;
+        document.getElementById('stat-sub').textContent = data.sub;
+        document.getElementById('stat-kpi-label').textContent = data.kpi.label;
+        document.getElementById('stat-fact').textContent = data.fact;
+        statBody.textContent = '';
+        var max = Math.max.apply(null, data.rows.map(function (r) { return r.v; }));
+        var counters = [];
+
+        if (data.type === 'bars') {
+          var list = el('ol', 'stat-list');
+          data.rows.forEach(function (r, i) {
+            var row = el('li', 'stat-row st-anim' + (r.hl ? ' is-hl' : ''));
+            row.style.setProperty('--i', i + 1);
+            row.appendChild(el('span', 'stat-name', r.name));
+            var track = el('span', 'stat-track');
+            track.setAttribute('aria-hidden', 'true');
+            var bar = el('span', 'stat-bar');
+            bar.style.width = (r.v / max * 100) + '%';
+            bar.style.setProperty('--i', i + 1);
+            bar.style.display = 'block';
+            track.appendChild(bar);
+            row.appendChild(track);
+            var val = el('span', 'stat-val');
+            var main = el('span');
+            val.appendChild(main);
+            if (data.unit === 'Mt') counters.push([main, r.v, 2, '', ' M t', i]);
+            else if (data.unit === 't') counters.push([main, r.v, 0, '', ' t', i]);
+            else counters.push([main, r.v, 1, '', ' %', i]);
+            if (r.pct != null) val.appendChild(el('small', null, fmtNum(r.pct, r.pct % 1 ? 1 : 0) + ' % del total'));
+            row.appendChild(val);
+            list.appendChild(row);
+          });
+          statBody.appendChild(list);
+        } else {
+          var wrap = el('div', 'st-anim');
+          wrap.style.setProperty('--i', 1);
+          var cols = el('ol', 'stat-cols');
+          var years = el('div', 'stat-col-years');
+          years.setAttribute('aria-hidden', 'true');
+          data.rows.forEach(function (r, i) {
+            var col = el('li', 'stat-col' + (r.hl ? ' is-hl' : ''));
+            var v = el('span', 'stat-col-val');
+            counters.push([v, r.v, 0, 'US$', '', i]);
+            var bar = el('span', 'stat-col-bar');
+            bar.style.height = 'calc(' + (r.v / max) + ' * (100% - 26px))';
+            bar.style.setProperty('--i', i);
+            bar.setAttribute('aria-hidden', 'true');
+            var sr = el('span', 'sr-only', r.name + ': ');
+            col.appendChild(sr);
+            col.appendChild(v);
+            col.appendChild(bar);
+            col.title = r.name + ': US$' + fmtNum(r.v, 0) + ' millones';
+            cols.appendChild(col);
+            years.appendChild(el('span', null, r.name));
+          });
+          wrap.appendChild(cols);
+          wrap.appendChild(years);
+          statBody.appendChild(wrap);
+        }
+        document.getElementById('stat-fact-wrap').style.setProperty('--i', data.rows.length + 1);
+        return counters;
+      }
+
+      function openStat(key, trigger) {
+        var data = STATS[key];
+        if (!data) return;
+        statTrigger = trigger;
+        closing = false;
+        statDlg.classList.remove('is-in');
+        var counters = renderStat(data);
+        statDlg.showModal();
+        statDlg.scrollTop = 0;
+        // Fuerza un reflow para reiniciar las animaciones CSS
+        void statDlg.offsetWidth;
+        statDlg.classList.add('is-in');
+        countUp(document.getElementById('stat-kpi-value'), data.kpi.to, data.kpi.dec, data.kpi.prefix, data.kpi.suffix, 200);
+        counters.forEach(function (c) { countUp(c[0], c[1], c[2], c[3], c[4], 300 + c[5] * 70); });
+
+        if (!reduceMotion && statDlg.animate) {
+          var from = trigger.getBoundingClientRect();
+          var to = statDlg.getBoundingClientRect();
+          var dx = (from.left + from.width / 2) - (to.left + to.width / 2);
+          var dy = (from.top + from.height / 2) - (to.top + to.height / 2);
+          var s = Math.max(from.width / to.width, 0.15);
+          statDlg.animate([
+            { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + s + ')', opacity: 0 },
+            { transform: 'none', opacity: 1 }
+          ], { duration: 560, easing: 'cubic-bezier(.16,1,.3,1)' });
+        }
+      }
+
+      function closeStat() {
+        if (!statDlg.open || closing) return;
+        closing = true;
+        function done() {
+          statDlg.close();
+          statDlg.classList.remove('is-in');
+          closing = false;
+          if (statTrigger) statTrigger.focus();
+        }
+        if (reduceMotion || !statDlg.animate || !statTrigger) { done(); return; }
+        var from = statDlg.getBoundingClientRect();
+        var to = statTrigger.getBoundingClientRect();
+        var dx = (to.left + to.width / 2) - (from.left + from.width / 2);
+        var dy = (to.top + to.height / 2) - (from.top + from.height / 2);
+        var s = Math.max(to.width / from.width, 0.15);
+        var anim = statDlg.animate([
+          { transform: 'none', opacity: 1 },
+          { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + s + ')', opacity: 0 }
+        ], { duration: 280, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
+        anim.onfinish = function () { done(); anim.cancel(); };
+      }
+
+      document.querySelectorAll('.stat-trigger').forEach(function (t) {
+        t.addEventListener('click', function () { openStat(t.dataset.stat, t); });
+      });
+      statDlg.addEventListener('click', function (e) {
+        if (e.target === statDlg || e.target.closest('[data-stat-close]')) closeStat();
+      });
+      statDlg.addEventListener('cancel', function (e) { e.preventDefault(); closeStat(); });
+    })();
+  </script>
+</body>
+</html>
